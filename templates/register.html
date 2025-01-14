@@ -7,9 +7,9 @@
     <div class="form-container">
         <form action="/register" method="POST">
             <input type="text" name="username" placeholder="Username" class="form-control rounded" required><br><br>
-            <input type="tel" name="number" placeholder="Phone Number" class="form-control rounded" required><br><br>
+            <input type="tel" name="number" placeholder="Phone Number" class="form-control rounded" required title="Enter a valid phone number"><br><br>
             <input type="password" name="password" placeholder="Password" class="form-control rounded" required><br><br>
-            <input type="password" name="confirmation" placeholder="Confirm Password" class="form-control rounded" required><br><br>
+            <input type="password" name="confirmation" placeholder="Confirm Password" class="form-control rounded" required title="Ensure password matches the one entered above"><br><br>
             <select id="role" name="role" class="form-control rounded" required>
                 <option selected disabled>Register as</option>
                 <option value="tenant">Tenant</option>
