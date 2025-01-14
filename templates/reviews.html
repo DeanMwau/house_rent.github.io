@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<h4>{{ apartment['title'] }}</h4>
+<p>Location: {{ apartment['location'] }}</p>
+{% if average_rating is not none %}
+    <p><strong>Average Rating:</strong> {{ average_rating|round(2) }}/5</p>
+{% endif %}
+
+{% if reviews %}
+<div class="about-page-container">
+    {% for review in reviews %}
+    <li style="list-style-type: none;">
+        <strong>{{ review['username'] }}</strong>
+        <strong><em>({{ review['rating'] }}/5)</em></strong><br>
+        <strong><span style="color: green;">{{ review['text'] }}</span></strong><br>
+        <strong>{{ review['date'] }}</strong>
+    </li>
+
+    {% if tenant_review and tenant_review['id'] == review['id'] %}
+    <div class="tenant-review">
+        <button class="btn btn-primary small-button mt-2" data-bs-toggle="modal"
+            data-bs-target="#editReviewModal">Edit</button>
+        <form action="/reviews/delete/{{ tenant_review['id'] }}" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger small-button mt-2">Delete</button>
+        </form>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% else %}
+<p>This property has no reviews yet.</p>
+{% endif %}
+
+{% if session.get('user_id') and not tenant_review %}
+<!-- Button to Open the Modal -->
+<button type="button" class="btn small-button mt-2" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+    Add a Review
+</button>
+{% elif not session.get('user_id') %}
+<!-- Message for guests -->
+<p class="text-muted mt-3">Log in to leave a review.</p>
+{% endif %}
+
+<!-- Add Review Modal -->
+<div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addReviewModalLabel">Add Your Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/reviews/{{ apartment['id'] }}" method="POST">
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <textarea name="text" class="form-control rounded" rows="3" placeholder="Your comment"
+                            required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <div class="star-rating">
+                            {% for i in range(5, 0, -1) %}
+                            <input type="radio" name="rating" value="{{ i }}" id="{{ i }}-stars" required />
+                            <label for="{{ i }}-stars" class="star">&#9733;</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary small-button" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary small-button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Review Modal -->
+<div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editReviewModalLabel">Edit Your Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/reviews/edit/{{ tenant_review['id'] }}" method="POST">
+                <!-- Hidden field to pass apartment_id -->
+                <input type="hidden" name="apartment_id" value="{{ apartment['id'] }}">
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <textarea name="text" class="form-control rounded" rows="3"
+                            required>{{ tenant_review['text'] }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <div class="star-rating">
+                            {% for i in range(5, 0, -1) %}
+                            <input type="radio" name="rating" value="{{ i }}" id="rating-{{ i }}" {% if
+                                tenant_review['rating']==i %}checked{% endif %} />
+                            <label for="rating-{{ i }}" class="star">&#9733;</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary small-button" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary small-button">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

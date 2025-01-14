@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <h4>Your Apartments</h4>
+        <div class="apartment-list">
+            {% for apartment in apartments %}
+            <div class="apartment-card">
+                <div class="apartment-images-container">
+                    <div class="apartment-images">
+                        {% for image in apartment['images'] %}
+                        <img src="data:image/jpeg;base64,{{ image }}" alt="Image of {{ apartment.title }}" class="apartment-image">
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="apartment-details">
+                    <h4>{{ apartment['title'] }}</h4>
+                    <p><strong>Description:</strong> {{ apartment['description'] }}</p>
+                    <p><strong>Rent:</strong> ${{ apartment['rent'] }}</p>
+                    <p><strong>Location:</strong> {{ apartment['location'] }}</p>
+                </div>
+                <div class="apartment-actions">
+                    <form action="/edit_apartment/{{ apartment['id'] }}" method="GET" >
+                        <button class="btn small-button">Edit</button>
+                    </form>
+
+                    <form action="/delete_apartment/{{ apartment['id'] }}" method="POST">
+                        <button type="submit" class="btn small-button">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+{% endblock %}

@@ -1,0 +1,320 @@
+html, body {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5; /* Optional: Better readability */
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1; /* Pushes the footer to the bottom */
+}
+
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: x-large;
+}
+
+li {
+    font-size: 14px;
+}
+
+
+/*For the homepage icon*/
+#imgLogo {
+    width: 50px;
+    height: auto;
+}
+
+/*Styles all the buttons*/
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    text-decoration: none;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor:pointer;
+    font-size: 14px;
+    height: auto;
+    width: auto;
+    min-width: 80px;
+}
+
+.btn:hover {
+    background-color: #027c06;
+    color: white;
+}
+
+/*for approve and decline buttons*/
+.inline-forms {
+    display: flex;
+    gap: 10px;
+}
+
+.inline-forms form {
+    display: inline;
+}
+
+
+
+/*styles login page and*/
+/*styles register page*/
+.register-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    position: relative;
+    padding: 20px;
+}
+
+.form-container,
+.welcome-container {
+    width: 50%;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-container {
+    background-color: #f4f4f4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 30px;
+    /* Adjust this to overlay more */
+}
+
+.welcome-container {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+}
+
+.welcome-container h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.welcome-container p {
+    font-size: 1.2em;
+}
+.username-input {
+    margin-top: 10px;
+}
+
+/*styles aparments*/
+.apartment-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.apartment-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    min-height: 400px; /* Adjust as needed */
+}
+
+.apartment-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.apartment-details {
+    padding: 15px;
+    flex-shrink: 0; /* Prevents the details from shrinking */
+}
+
+.apartment-details h2 {
+    margin: 0 0 10px;
+}
+
+.apartment-actions {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
+.apartment-actions form {
+    margin: 0;
+}
+
+
+
+
+/* For Scrolling*/
+.apartment-images-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #f5f5f5;
+    flex-grow: 1;
+}
+
+.apartment-images {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.apartment-images img {
+    flex-shrink: 0;
+    max-width: 100%;
+    height: auto;
+    margin-right: 10px;
+}
+
+
+/*Contact form */
+.form-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.enquire-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+form .form-outline {
+    width: 100%;
+    margin-bottom: 15px;
+}
+.enquire-form button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-apartment{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-sizing: border-box;
+}
+ 
+.change_password {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+
+.about-page-container {
+    text-align: left;
+    /* Ensure all text aligns to the left */
+    margin: 0 auto;
+    /* Center the container on the page horizontally */
+    max-width: 800px;
+    /* Limit the width of the container */
+    padding: 20px;
+    /* Add padding for better readability */
+    background-color: #f4f4f4;
+}
+
+.about-page-container h4,
+.about-page-container h5,
+.about-page-container h6 {
+    margin-top: 20px;
+    /* Add spacing between headers */
+    color: #333;
+    /* Optional: Change text color */
+}
+
+.about-page-container p {
+    margin-bottom: 15px;
+    /* Add spacing between paragraphs */
+    line-height: 1.6;
+    /* Improve readability with line spacing */
+}
+
+.about-page-container ul {
+    margin-left: 20px;
+    /* Indent list items */
+    padding-left: 20px;
+    /* Ensure proper spacing for bullets */
+}
+
+.about-page-container ul li {
+    margin-bottom: 10px;
+    /* Add spacing between list items */
+}
+
+/*For rating*/
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 1.5em;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input:checked~label {
+    color: #4CAF50;
+}
+
+.star-rating .half:before {
+    content: "\2605";
+    /* Unicode star character */
+    position: absolute;
+    margin-left: -1em;
+    color: #4CAF50;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    /* Optional: Background color for the footer */
+}
+

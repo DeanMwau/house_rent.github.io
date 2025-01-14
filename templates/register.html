@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <h4>Create Account</h4>
+<div class="register-container">
+    <div class="form-container">
+        <form action="/register" method="POST">
+            <input type="text" name="username" placeholder="Username" class="form-control rounded" required><br><br>
+            <input type="tel" name="number" placeholder="Phone Number" class="form-control rounded" required><br><br>
+            <input type="password" name="password" placeholder="Password" class="form-control rounded" required><br><br>
+            <input type="password" name="confirmation" placeholder="Confirm Password" class="form-control rounded" required><br><br>
+            <select id="role" name="role" class="form-control rounded" required>
+                <option selected disabled>Register as</option>
+                <option value="tenant">Tenant</option>
+                <option value="owner">Owner</option>
+            </select><br><br>
+            <button type="submit" class="btn small-button">Sign up</button>
+        </form>
+    </div>
+    <div class="welcome-container">
+        <h4>House Rent </h4>
+        <p>"Success isn't owned, it's leased. And rent is due every day".</p>
+    </div>
+</div>
+
+{% endblock %}

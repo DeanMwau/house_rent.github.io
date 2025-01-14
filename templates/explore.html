@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+
+{% block main %}
+
+<h4>Available Apartments</h4>
+<div class="apartment-list">
+    {% for apartment in apartments %}
+    <div class="apartment-card">
+        <div class="apartment-images-container">
+            <div class="apartment-images">
+                {% for image in apartment['images'] %}
+                <img src="data:image/jpeg;base64,{{ image }}" alt="Image of {{ apartment.title }}"
+                    class="apartment-image">
+                {% endfor %}
+            </div>
+        </div>
+        <div class="apartment-details">
+            <h4>{{ apartment['title'] }}</h4>
+            <p><strong>Description:</strong> {{ apartment['description'] }}</p>
+            <p><strong>Rent:</strong> ${{ apartment['rent'] }}</p>
+            <p><strong>Location:</strong> {{ apartment['location'] }}</p>
+
+            {% if not session.get('user_id') %}
+            <p style="color: rgb(235, 30, 15);">Log in to rent or enquire</p>
+            {% endif %}
+            
+        </div>
+        <div class="apartment-actions">
+            <a href="/reviews/{{ apartment['id'] }}" class="btn small-button">Reviews</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

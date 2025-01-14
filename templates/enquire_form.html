@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+
+{% block main %}
+<h4>Get in touch with {{ apartment.title }} manager</h4>
+    <div class="form-card">
+        <form action="/enquire/{{ apartment.id }}" class="enquire-form" method="POST">
+
+            <!-- Name input -->
+            <div data-mdb-input-init class="form-outline">
+                <input type="text" name="name" class="form-control" placeholder="Name" required/>
+            </div>
+        
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline">
+                <input type="email" name="email" class="form-control" placeholder="Email adddress" required/>
+            </div>
+        
+            <!-- Message input -->
+            <div data-mdb-input-init class="form-outline">
+                <textarea class="form-control" name="message" rows="4" placeholder="Message" required></textarea>
+            </div>
+        
+            <!-- Submit button -->
+            <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block small-button">Send</button><br>
+            
+            <p style="color: red;">OR Call: {{ apartment.number }} </p>
+        </form>
+
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <h4>Log In</h4>
+        <div class="register-container">
+            <div class="form-container">
+                <form action="/login" method="POST">
+                    <input type="text" name="username" class="form-control rounded" required placeholder="Username" class="username-input"><br><br>
+
+                    <input type="password" name="password" class="form-control rounded" required placeholder="Password"><br><br>
+                    
+                    <button type="submit" class="btn small-button">Login</button>
+                </form>
+            </div>
+            <div class="welcome-container">
+                <h4>House Rent </h4>
+                <p>"Success isn't owned, it's leased. And rent is due every day".</p>
+            </div>
+        </div>
+
+{% endblock %}

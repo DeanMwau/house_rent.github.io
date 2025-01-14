@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container mt-*">
+    <h4 class="text-center mb-4">Your Apartments and Reviews</h4>
+
+    {% if apartments %}
+    <div class="row">
+        {% for apartment in apartments %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ apartment['title'] }}</h5>
+                    <p class="card-text"><strong>Location:</strong> {{ apartment['location'] }}</p>
+
+                    {% if reviews_by_apartment.get(apartment['id']) %}
+                    <div class="reviews">
+                        <h6 class="mb-3">Reviews:</h6>
+                        <ul class="list-group">
+                            {% for review in reviews_by_apartment[apartment['id']] %}
+                            <li class="list-group-item">
+                                <p class="mb-1">
+                                    <strong>{{ review['username'] }}</strong>
+                                    <span class="text-muted"> - {{ review['date'] }}</span>
+                                </p>
+                                <p class="mb-1"><strong>Rating:</strong> {{ review['rating'] }}/5</p>
+                                <strong><p style="color: green;">{{ review['text'] }}</p></strong>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No reviews for this apartment yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">
+        <p>You don't own any apartments yet.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <h4>Add Apartment</h4>
+    <div class="add-apartment">
+        <form action="/add_apartment" method="POST" enctype="multipart/form-data">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" class="form-control rounded" required placeholder="Enter apartment name"><br><br>
+
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description" class="form-control rounded" required placeholder="Enter apartment description"></textarea><br><br>
+
+            <label for="rent">Rent:</label><br>
+            <input type="number" id="rent" name="rent" step="1" class="form-control rounded" required placeholder="Enter monthly rent"><br><br>
+
+            <label for="location">Location:</label><br>
+            <input type="text" id="location" name="location" class="form-control rounded" required placeholder="Enter apartment location"><br><br>
+
+            <label for="image">Image:</label><br>
+            <input type="file" id="images" name="images" accept="image/*" class="form-control rounded" multiple required><br><br>
+
+            <button type="submit" class="btn small-button">Add Apartment</button>
+        </form>
+    </div>
+
+{% endblock %}
