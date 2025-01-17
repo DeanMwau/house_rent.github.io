@@ -1,5 +1,5 @@
 Project Title: House Rent 
-Video Demo: 
+Video Demo: https://youtu.be/B19i9vy9XAg
 
 Project Description:
 My House Rent website allows property owners to list apartments for rent, while tenants can browse available listings, view detailed information (such as descriptions, rent, and location), and leave reviews. The platform also enables tenants to enquire about apartments, rent properties, and update or manage their reviews. Property owners can manage their apartment listings, delete listings, view tenant reviews, and enquiries, and make edits to the apartment details. The platform ensures seamless interaction between property owners and potential tenants, fostering transparency and informed decision-making.
@@ -11,3 +11,7 @@ This project has different files that ensure it performs as designed. For exampl
 
 Design Debates and Choices:
 When building the House Rent website, certain design choices required careful consideration to ensure functionality, usability, and an appealing user experience. One of the debates was whether to store tenant and property owner information in the same table or separate them into two distinct tables. I created separate tables (tenants and property_owners) for better modularity, security, and scalability. I also deliberated whether to allow anonymous reviews or enforce login before posting reviews. I decided that users must log in to add a review, ensuring accountability and credibility, preventing spam or irrelevant reviews. In conclusion, I also deliberated whether to sanitize inputs at the client side, server side, or both. I chose to sanitize inputs on both client and server sides which ensures that malicious scripts are blocked at multiple levels, improving overall security.
+
+License:
+Apache License 2.0
+Copyright (c) 2025 Edwin Mwaura

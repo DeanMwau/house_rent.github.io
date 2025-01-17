@@ -2,45 +2,47 @@
 
 {% block main %}
 
-<h4>{{ apartment['title'] }}</h4>
-<p>Location: {{ apartment['location'] }}</p>
+<h4 style="color: white;">{{ apartment['title'] }}</h4>
+<p style="color:white">Location: {{ apartment['location'] }}</p>
 {% if average_rating is not none %}
-    <p><strong>Average Rating:</strong> {{ average_rating|round(2) }}/5</p>
+    <p style="color: white;"><strong>Average Rating:</strong> {{ average_rating|round(2) }}/5</p>
 {% endif %}
 
 {% if reviews %}
-<div class="about-page-container">
-    {% for review in reviews %}
-    <li style="list-style-type: none;">
-        <strong>{{ review['username'] }}</strong>
-        <strong><em>({{ review['rating'] }}/5)</em></strong><br>
-        <strong><span style="color: green;">{{ review['text'] }}</span></strong><br>
-        <strong>{{ review['date'] }}</strong>
-    </li>
-
-    {% if tenant_review and tenant_review['id'] == review['id'] %}
-    <div class="tenant-review">
-        <button class="btn btn-primary small-button mt-2" data-bs-toggle="modal"
-            data-bs-target="#editReviewModal">Edit</button>
-        <form action="/reviews/delete/{{ tenant_review['id'] }}" method="POST" class="d-inline">
-            <button type="submit" class="btn btn-danger small-button mt-2">Delete</button>
-        </form>
+    <div class="review-page-container">
+        {% for review in reviews %}
+            <li style="list-style-type: none;">
+                <strong>{{ review['username'] }}</strong>
+                <strong><em>({{ review['rating'] }}/5)</em></strong><br>
+                <strong><span style="color: green;">{{ review['text'] }}</span></strong><br>
+                <strong>{{ review['date'] }}</strong>
+            </li>
+            
+            <!-- Check if the logged-in tenant owns this review -->
+             {% if tenant_id == review['tenant_id'] and user_role != 'owner' %}
+            <div class="tenant-review">
+                <button class="btn btn-primary small-button mt-2" data-bs-toggle="modal"
+                    data-bs-target="#editReviewModal">Edit</button>
+                <form action="/reviews/delete/{{ tenant_review['id'] }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger small-button mt-2">Delete</button>
+                </form>
+            </div>
+            {% endif %}
+        {% endfor %}        
     </div>
-    {% endif %}
-    {% endfor %}
-</div>
 {% else %}
-<p>This property has no reviews yet.</p>
+<p style="color: white;">This property has no reviews yet.</p>
 {% endif %}
 
-{% if session.get('user_id') and not tenant_review %}
-<!-- Button to Open the Modal -->
-<button type="button" class="btn small-button mt-2" data-bs-toggle="modal" data-bs-target="#addReviewModal">
-    Add a Review
-</button>
+{% if tenant_id and user_role == 'tenant' and tenant_review == None %}
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn small-button mt-2" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+        Add a Review
+    </button>
 {% elif not session.get('user_id') %}
-<!-- Message for guests -->
-<p class="text-muted mt-3">Log in to leave a review.</p>
+    <!-- Message for guests -->
+    <p class="text-muted mt-3" style="color: red !important;">Log in to leave a review.</p>
+
 {% endif %}
 
 <!-- Add Review Modal -->
@@ -75,6 +77,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Edit Review Modal -->
 <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">

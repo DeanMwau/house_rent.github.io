@@ -2,23 +2,23 @@
 
 {% block main %}
 
-    <h4>Add Apartment</h4>
+    <h4 style="color: white;">Add Apartment</h4>
     <div class="add-apartment">
         <form action="/add_apartment" method="POST" enctype="multipart/form-data">
             <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" class="form-control rounded" required placeholder="Enter apartment name"><br><br>
+            <input type="text" id="title" name="title" class="form-control rounded" required placeholder="Enter apartment name"><br>
 
             <label for="description">Description:</label><br>
-            <textarea id="description" name="description" class="form-control rounded" required placeholder="Enter apartment description"></textarea><br><br>
+            <textarea id="description" name="description" class="form-control rounded" required placeholder="Enter apartment description"></textarea><br>
 
             <label for="rent">Rent:</label><br>
-            <input type="number" id="rent" name="rent" step="1" class="form-control rounded" required placeholder="Enter monthly rent"><br><br>
+            <input type="number" id="rent" name="rent" step="1" class="form-control rounded" required placeholder="Enter monthly rent"><br>
 
             <label for="location">Location:</label><br>
-            <input type="text" id="location" name="location" class="form-control rounded" required placeholder="Enter apartment location"><br><br>
+            <input type="text" id="location" name="location" class="form-control rounded" required placeholder="Enter apartment location"><br>
 
             <label for="image">Image:</label><br>
-            <input type="file" id="images" name="images" accept="image/*" class="form-control rounded" multiple required><br><br>
+            <input type="file" id="images" name="images" accept="image/*" class="form-control rounded" multiple required><br>
 
             <button type="submit" class="btn small-button">Add Apartment</button>
         </form>

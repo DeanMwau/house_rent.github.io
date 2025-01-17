@@ -1,45 +1,47 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<h4>Rent Requests</h4>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Tenant</th>
-            <th>Number</th>
-            <th>Apartment Title</th>
-            <th>Location</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for request in requests %}
-        <tr>
-            <td>{{ request['tenant_username'] }}</td>
-            <td>{{ request['tenant_number'] }}</td>
-            <td>{{ request['apartment_title'] }}</td>
-            <td>{{ request['apartment_location'] }}</td>
-            <td>{{ request['request_status'] | capitalize }}</td>
-            <td>
-                {% if request['request_status'] == 'pending' %}
-                <div class="inline-forms">
-                    <form action="/change_request_status/{{ request['request_id'] }}/approve" method="POST">
-                        <button type="submit" class="btn btn-success small-button">Approve</button>
-                    </form>
-                    <form action="/change_request_status/{{ request['request_id'] }}/decline" method="POST">
-                        <button type="submit" class="btn btn-danger small-button">Decline</button>
-                    </form>
-                </div>
-                {% elif request['request_status'] == 'approved' %}
-                <span class="badge bg-success">Approved</span>
-                {% elif request['request_status'] == 'declined' %}
-                <span class="badge bg-danger">Declined</span>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<h4 style="color: white;">Rent Requests</h4>
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tenant</th>
+                <th>Number</th>
+                <th>Apartment Title</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request['tenant_username'] }}</td>
+                <td>{{ request['tenant_number'] }}</td>
+                <td>{{ request['apartment_title'] }}</td>
+                <td>{{ request['apartment_location'] }}</td>
+                <td>{{ request['request_status'] | capitalize }}</td>
+                <td>
+                    {% if request['request_status'] == 'pending' %}
+                    <div class="inline-forms">
+                        <form action="/change_request_status/{{ request['request_id'] }}/approve" method="POST">
+                            <button type="submit" class="btn small-button">Approve</button>
+                        </form>
+                        <form action="/change_request_status/{{ request['request_id'] }}/decline" method="POST">
+                            <button type="submit" class="btn small-button">Decline</button>
+                        </form>
+                    </div>
+                    {% elif request['request_status'] == 'approved' %}
+                    <span class="badge bg-success">Approved</span>
+                    {% elif request['request_status'] == 'declined' %}
+                    <span class="badge bg-danger">Declined</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

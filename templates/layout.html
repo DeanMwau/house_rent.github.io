@@ -24,7 +24,7 @@
 
     <link href="/static/styles.css" rel="stylesheet">
 
-    <title>House Rent</title>
+    <title>{{ title }}</title>
 
 </head>
 
@@ -41,27 +41,54 @@
                 {% if session["user_id"] %}
                 <ul class="navbar-nav me-auto">
                     {% if session["role"] == "owner" %}
-                        <li class="nav-item"><a class="nav-link" href="/add_apartment">Add Apartment</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/owner_dashboard">Your Apartments</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/view_rent_requests">Rent Requests</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/view_enquiries">Enquiries</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/view_reviews">Reviews</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/owner_dashboard' %}active-link{% endif %}" href="/owner_dashboard">Your Apartments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/add_apartment' %}active-link{% endif %}" href="/add_apartment">Add
+                                Apartment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/view_rent_requests' %}active-link{% endif %}" href="/view_rent_requests">Rent Requests</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/view_enquiries' %}active-link{% endif %}" href="/view_enquiries">Enquiries</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/view_reviews' %}active-link{% endif %}" href="/view_reviews">Reviews</a>
+                        </li>
                     {% endif %}
                     {% if session["role"] == "tenant" %}
-                    <li class="nav-item"><a class="nav-link" href="/tenant_dashboard">Apartments</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/rented_apartment">Rented</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/tenant_dashboard' %}active-link{% endif %}" href="/tenant_dashboard">Apartments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/rented_apartment' %}active-link{% endif %}" href="/rented_apartment">Rented</a>
+                    </li>
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/change_password">Change Password</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/change_password' %}active-link{% endif %}" href="/change_password">Change Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Log Out</a>
+                    </li>
                 </ul>
                 {% else %}
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/explore">Explore</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/register">Sign Up</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/explore' %}active-link{% endif %}" href="/explore">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/register' %}active-link{% endif %}" href="/register">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/login' %}active-link{% endif %}" href="/login">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/about' %}active-link{% endif %}" href="/about">About Us</a>
+                    </li>
                 </ul>
                 {% endif %}
             </div>
@@ -72,7 +99,7 @@
     <header>
         <div class="alert alert-primary mb-0 text-center" role="alert">
             {% for message in get_flashed_messages() %}
-            <p>{{ message }}</p>
+            <p style="color: black;">{{ message }}</p>
             {% endfor %}
         </div>
     </header>

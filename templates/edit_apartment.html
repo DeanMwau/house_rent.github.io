@@ -6,19 +6,19 @@
     <div class="add-apartment">
         <form action="" method="POST" enctype="multipart/form-data">
             <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" value="{{ apartment['title'] }}" class="form-control rounded" required><br><br>
+            <input type="text" id="title" name="title" value="{{ apartment['title'] }}" class="form-control rounded" required><br>
 
             <label for="description">Description:</label><br>
-            <textarea id="description" name="description"  class="form-control rounded" required>{{ apartment['description'] }}</textarea><br><br>
+            <textarea id="description" name="description"  class="form-control rounded" required>{{ apartment['description'] }}</textarea><br>
 
             <label for="rent">Rent:</label><br>
-            <input type="number" id="rent" name="rent" step="1" value="{{ apartment['rent'] }}" class="form-control rounded" required><br><br>
+            <input type="number" id="rent" name="rent" step="1" value="{{ apartment['rent'] }}" class="form-control rounded" required><br>
 
             <label for="location">Location:</label><br>
-            <input type="text" id="location" name="location" value="{{ apartment['location'] }}" class="form-control rounded" required><br><br>
+            <input type="text" id="location" name="location" value="{{ apartment['location'] }}" class="form-control rounded" required><br>
 
             <label for="image">Upload New Images:</label><br>
-            <input type="file" id="images" name="images" class="form-control rounded" multiple><br><br>
+            <input type="file" id="images" name="images" class="form-control rounded" multiple><br>
         
             <h4>Existing Images</h4>
             <div class="apartment-images-container">

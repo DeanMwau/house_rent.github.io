@@ -2,20 +2,21 @@
 
 {% block main %}
 
-    <h4>Log In</h4>
+    <h4 style="color: white;">Log In</h4>
         <div class="register-container">
             <div class="form-container">
                 <form action="/login" method="POST">
                     <input type="text" name="username" class="form-control rounded" required placeholder="Username" class="username-input"><br><br>
 
-                    <input type="password" name="password" class="form-control rounded" required placeholder="Password"><br><br>
-                    
-                    <button type="submit" class="btn small-button">Login</button>
+                    <input type="password" name="password" class="form-control rounded" required placeholder="Password"><br>
+                                        
+                    <button type="submit" class="btn small-button">Login</button><br><br>
                 </form>
+                <p style="color: white;">New to House Rent? <a href="/register" style="color: #4CAF50;">Sign up</a></p>
             </div>
             <div class="welcome-container">
-                <h4>House Rent </h4>
-                <p>"Success isn't owned, it's leased. And rent is due every day".</p>
+                <h1 >House Rent</h1>
+                <p style="font-size: larger;">"Success isn't owned, it's leased. And rent is due every day".</p>
             </div>
         </div>
 

@@ -23,7 +23,7 @@ create_db()
 # Owner routes
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", title='House Rent')
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -81,7 +81,7 @@ def register():
         return render_template("login.html")
     
     # If the method was GET
-    return render_template('register.html')
+    return render_template('register.html', title='Sign Up')
 
 
 @app.route("/login", methods= ["GET", "POST"])
@@ -135,7 +135,7 @@ def login():
             return redirect("/login")
                                 
     # Render the login page if the request method is GET
-    return render_template("login.html")
+    return render_template("login.html", title='Login')
 
 
 @app.route("/owner_dashboard")
@@ -179,7 +179,7 @@ def owner_dashboard():
                     "images": image_base64_list,
 
                 }) 
-        return render_template('owner_dashboard.html', apartments=apartments_with_images)
+        return render_template('owner_dashboard.html', apartments=apartments_with_images, title='Your Apartments')
 
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -229,7 +229,8 @@ def tenant_dashboard():
 
             # Convert dictionary to list for rendering
             apartments_list = list(apartments.values())
-        return render_template('apartments.html', apartments=apartments_list)
+
+        return render_template('apartments.html', apartments=apartments_list, title='Apartments')
 
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -289,7 +290,7 @@ def add_apartment():
             flash(f"An error occurred: {e}", "danger")
             return render_template("add_apartment.html")
     
-    return render_template('add_apartment.html')
+    return render_template('add_apartment.html', title='Add Apartment')
 
 
 @app.route("/change_password", methods= ["GET", "POST"])
@@ -350,7 +351,7 @@ def change_password():
             flash(f"An error occurred: {e}", "danger")
             return render_template("change_password.html")
 
-    return render_template("change_password.html")
+    return render_template("change_password.html", title='Change Password')
 
 
 @app.route("/edit_apartment/<int:apartment_id>", methods= ["GET", "POST"])
@@ -441,7 +442,7 @@ def edit_apartment(apartment_id):
                         base64.b64encode(image["image_blob"]).decode('utf-8') for image in images
                     ]
                 
-                return render_template("edit_apartment.html", apartment=apartment, images=image_base64_list)
+                return render_template("edit_apartment.html", apartment=apartment, images=image_base64_list, title='Edit Apartment')
         
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -473,8 +474,7 @@ def delete_apartment(apartment_id):
     
 
 @app.route("/search", methods= ["GET", "POST"])
-def search():  
-    tenant_id = session.get("user_id")  
+def search(): 
     location = request.form.get("query") if request.method == "POST" else request.args.get("query")
 
     # Validate user input
@@ -527,7 +527,7 @@ def search():
         is_tenant = session.get("user_role") == "tenant"
         
         # Render the search results page
-        return render_template("apartments_search.html", apartments=list(apartments.values()), is_tenant=is_tenant)             
+        return render_template("apartments_search.html", apartments=list(apartments.values()), is_tenant=is_tenant, title='Results')             
 
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -630,7 +630,7 @@ def rented_apartment():
                     )
 
             rented_apartments_list = list(rented_apartments.values())
-        return render_template("rented_apartment.html", apartments=rented_apartments_list)
+        return render_template("rented_apartment.html", apartments=rented_apartments_list, title='Rented')
 
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -689,7 +689,7 @@ def view_rent_requests():
                     apartments.owner_id = ?
             """, (owner_id,)).fetchall()
 
-        return render_template("view_rent_requests.html", requests=requests)
+        return render_template("view_rent_requests.html", requests=requests, title='Rent Requests')
     
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -768,7 +768,7 @@ def enquire(apartment_id):
                     flash("Apartment not found.", "danger")
                     return redirect("/tenant_dashboard")
                 
-                return render_template("enquire_form.html", apartment=apartment)
+                return render_template("enquire_form.html", apartment=apartment, title='Enquire')
             
         except Exception as e:
             flash(f"An error occurred: {e}", "danger")
@@ -837,7 +837,7 @@ def view_enquiries():
             """, (owner_id,))
             enquiries = cursor.fetchall()
 
-        return render_template("enquiries.html", enquiries=enquiries)
+        return render_template("enquiries.html", enquiries=enquiries, title='Enquiries')
     
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -846,7 +846,7 @@ def view_enquiries():
 
 @app.route("/about", methods=["GET"])
 def about():
-    return render_template("about.html")
+    return render_template("about.html", title='About Us')
 
 
 @app.route("/explore")
@@ -891,20 +891,20 @@ def explore():
 
             # Convert dictionary to list for rendering
             apartments_list = list(apartments.values())
-        return render_template('explore.html', apartments=apartments_list)
+        return render_template('explore.html', apartments=apartments_list, title='Explore')
 
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
-        return redirect("/")
-    
+        return redirect("/")    
 
 
 @app.route("/reviews/<int:apartment_id>", methods=["GET", "POST"])
 def reviews(apartment_id):
     try:
-        # Get the logged-in tenant's ID
+        # Get the logged-in user's ID and role
         tenant_id = session.get("user_id")
-
+        user_role = session.get("role")
+    
         # Connect to the database
         with sqlite3.connect("rentals.db") as conn:
             conn.row_factory = sqlite3.Row
@@ -922,13 +922,13 @@ def reviews(apartment_id):
 
             # Fetch all reviews for the apartment
             cursor.execute("""
-                SELECT reviews.id, reviews.text, reviews.rating, tenants.username, reviews.date
+                SELECT reviews.tenant_id, reviews.text, reviews.rating, tenants.username, reviews.date
                 FROM reviews 
                 JOIN tenants ON reviews.tenant_id = tenants.id
                 WHERE reviews.apartment_id = ?
                 ORDER BY reviews.date DESC
             """, (apartment_id,))
-            reviews = cursor.fetchall()
+            reviews = cursor.fetchall()          
 
              # Fetch the tenant's review, if any
             cursor.execute("""
@@ -967,42 +967,37 @@ def reviews(apartment_id):
                     
             try:
                  # Insert the new review into the database
-                with sqlite3.connect("rentals.db") as conn:
-                    conn.row_factory = sqlite3.Row
-                    cursor = conn.cursor()
+                if tenant_review:
 
-                    if tenant_review:
+                    # Update existing review
+                    cursor.execute("""
+                        UPDATE reviews 
+                        SET text = ?, rating = ?, date = datetime('now') 
+                        WHERE id = ?
+                    """, (text, int(rating), tenant_review["id"]))
 
-                        # Update existing review
-                        cursor.execute("""
-                            UPDATE reviews 
-                            SET text = ?, rating = ?, date = datetime('now') 
-                            WHERE id = ?
-                        """, (text, int(rating), tenant_review["id"]))
+                    flash("Your review has been updated successfully!", "success")
 
-                        flash("Your review has been updated successfully!", "success")
+                else:
+                    # Add new review
+                    cursor.execute("""
+                        INSERT INTO reviews (apartment_id, tenant_id, text, rating, date)
+                        VALUES (?, ?, ?, ?, datetime('now'))
+                    """, (apartment_id, tenant_id, text, int(rating)))
 
-                    else:
-                        # Add new review
-                        cursor.execute("""
-                            INSERT INTO reviews (apartment_id, tenant_id, text, rating, date)
-                            VALUES (?, ?, ?, ?, datetime('now'))
-                        """, (apartment_id, tenant_id, text, int(rating)))
+                    flash("Your review has been added successfully!", "success")
 
-                        flash("Your review has been added successfully!", "success")
-
-                    conn.commit()
-
+                conn.commit()
                 return redirect(f"/reviews/{apartment_id}")
             
             except Exception as e:
                 flash(f"An error occurred while adding the review: {e}", "danger")
                 return redirect(f"/reviews/{apartment_id}")
         
-        return render_template("reviews.html", reviews=reviews, apartment=apartment, tenant_review=tenant_review, average_rating=average_rating)
+        return render_template("reviews.html", reviews=reviews, apartment=apartment, tenant_review=tenant_review, average_rating=average_rating, tenant_id=tenant_id, user_role=user_role, title='Reviews')
     
     except Exception as e:
-        flash(f"An error occurred: {e}", "danger")
+        flash(f"An error occurred when fetching existing reviews: {e}", "danger")
         return redirect("/tenant_dashboard")
     
 
@@ -1035,6 +1030,7 @@ def delete_review(review_id):
     except Exception as e:
         flash(f"An error occurred while deleting the review: {e}", "danger")
         return redirect("/tenant_dashboard")
+    
 
 @app.route("/reviews/edit/<int:review_id>", methods=["POST"])
 @login_required
@@ -1042,15 +1038,18 @@ def edit_review(review_id):
     try:
         # Get tenant ID
         tenant_id = session.get("user_id")
+        if not tenant_id:
+            flash("You need to log in to edit a review.", "danger")
+            return redirect("/login")
+    
         text = request.form.get("text")
         rating = request.form.get("rating")
-
-        # Get the apartment_id from the form
-        apartment_id = request.form.get("apartment_id") 
-
         if not text or not rating:
             flash("Review text and rating are required.", "danger")
             return redirect("/tenant_dashboard")
+
+        # Get the apartment_id from the form
+        apartment_id = request.form.get("apartment_id") 
 
         # Update the review in the database
         with sqlite3.connect("rentals.db") as conn:
@@ -1126,7 +1125,7 @@ def view_reviews():
                 "username": review["username"],
             })
         
-        return render_template("view_reviews.html", apartments=apartments, reviews_by_apartment=reviews_by_apartment)
+        return render_template("view_reviews.html", apartments=apartments, reviews_by_apartment=reviews_by_apartment, title='Reviews')
         
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
@@ -1139,8 +1138,7 @@ def logout():
     session.clear()
 
     # Redirect owner to login form
-    return redirect("/login")
-
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)
