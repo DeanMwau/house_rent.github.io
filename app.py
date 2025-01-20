@@ -497,7 +497,7 @@ def search():
                         apartment_images.image_blob 
                 FROM apartments 
                 LEFT JOIN apartment_images ON apartments.id = apartment_images.apartment_id WHERE apartments.location like ?
-            """, ('%' + location + '%',))
+            """, ("%" + location + "%",))
 
             rows = cursor.fetchall()
         
@@ -524,8 +524,8 @@ def search():
             return redirect("/")
         
         # Determine if the user is a tenant (example logic; replace with your actual user role-checking logic)
-        is_tenant = session.get("user_role") == "tenant"
-        
+        is_tenant = session.get("role") == "tenant"
+                
         # Render the search results page
         return render_template("apartments_search.html", apartments=list(apartments.values()), is_tenant=is_tenant, title='Results')             
 

@@ -20,24 +20,20 @@
                 <p><strong>Rent:</strong> ${{ apartment['rent'] }}</p>
                 <p><strong>Location:</strong> {{ apartment['location'] }}</p>
 
-                <form action="/reviews/{{ apartment['id'] }}" method="GET">
-                    <button class="btn">Reviews</button>
-                </form>
             </div>
-            {% if is_tenant %}
             <div class="apartment-actions">
-                <form action="/rent_apartment/{{ apartment['id'] }}" method="POST">
-                    <button type="submit" class="btn small-button">Rent</button>
-                </form>
-                <form action="/enquire/{{ apartment['id'] }}" method="GET">
-                    <button class="btn small-button">Enquire</button>
-                </form>
-
-                <form action="/reviews/{{ apartment['id'] }}" method="GET">
-                    <button class="btn small-button">Reviews</button>
-                </form>               
-            </div>
-            {% endif %}
+                {% if is_tenant %}            
+                    <form action="/rent_apartment/{{ apartment['id'] }}" method="POST">
+                        <button type="submit" class="btn small-button">Rent</button>
+                    </form>
+                    <form action="/enquire/{{ apartment['id'] }}" method="GET">
+                        <button class="btn small-button">Enquire</button>
+                    </form>
+                {% endif %}
+                    <form action="/reviews/{{ apartment['id'] }}" method="GET">
+                        <button class="btn small-button">Reviews</button>
+                    </form>
+            </div>           
         </div>
         {% endfor %}
     </div>
