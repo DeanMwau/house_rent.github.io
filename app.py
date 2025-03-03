@@ -1,24 +1,43 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+import os
 import sqlite3
 import base64
-import os
 from helpers import login_required, create_db
+from models.models import db, Apartment
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-# Set secret key for session management and flashing messages
-app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY")
+    # Set secret key for session management and flashing messages
+    app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY")
+
+    # Configure the database URI (make sure it's pointing to your SQLite database)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rentals.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # Initialize the database
+    db.init_app(app)
 
 
-# Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+    # Ensure tables are created when the app starts
+    with app.app_context():
+        db.create_all()
 
-# Call the function to create the database if it doesn't exist
-create_db()
+
+    # Configure session to use filesystem (instead of signed cookies)
+    app.config["SESSION_PERMANENT"] = False
+    app.config["SESSION_TYPE"] = "filesystem"
+    Session(app)
+
+    # Call the function to create the database if it doesn't exist
+    create_db()
+
+    return app
+
+# Create the app instance
+app = create_app()
 
 # Owner routes
 @app.route("/")
@@ -1130,6 +1149,26 @@ def view_reviews():
     except Exception as e:
         flash(f"An error occurred: {e}", "danger")
         return redirect("/owner_dashboard")
+    
+    
+# Define the API route for fetching apartments by location
+@app.route('/api/apartments', methods=['GET'])
+def get_apartments_by_location():
+    location = request.args.get('location')  # Get the location from the query parameter
+
+    if location:
+        apartments = Apartment.query.filter(Apartment.location.ilike(f"%{location}%")).all()
+        apartment_list = [{
+            'id': apartment.id,
+            'title': apartment.title,
+            'description': apartment.description,
+            'location': apartment.location,
+            'rent': apartment.rent
+        } for apartment in apartments]
+        
+        return jsonify({'apartments': apartment_list}), 200
+    else:
+        return jsonify({'message': 'Location parameter is required'}), 400
 
 
 @app.route("/logout")

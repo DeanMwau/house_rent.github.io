@@ -7,7 +7,7 @@
         style="background-image: url('/static/KICC.jpg'); background-size: cover; background-position: center;">
     
         <!-- Centered Heading -->
-        <h1 style="color:rgb(8, 15, 36);">Welcome to House Rent!</h1>
+        <h1 style="color:rgb(0, 62, 247);">Welcome to House Rent!</h1>
     
         <!-- Centered Button Section -->
         <div class="text-center p-4 bg-transparent bg-opacity-50 rounded mt-3">
@@ -16,7 +16,7 @@
                     <span class="input-group-text border-0" id="basic-addon1">
                         <i class="bi bi-geo-alt" style="font-size: 20px;"></i>
                     </span>
-                    <input type="text" class="form-control border-0" placeholder="Enter location" aria-label="Search"
+                    <input type="text" id="location-input" class="form-control border-0" placeholder="Enter location" aria-label="Search"
                         aria-describedby="search-button" name="query" required>                    
 
                     <button class="btn d-flex align-items-center ms-3" type="submit" id="search-button">
@@ -31,6 +31,12 @@
                 </div>
             </form>
         </div>
+
+        <!-- Apartment Results -->
+        <div id="apartment-list" class="mt-4">
+            <!-- Dynamic results will be populated here -->
+        </div>
+
     </div>
 
 
